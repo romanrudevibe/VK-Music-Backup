@@ -1,0 +1,14 @@
+{
+  "name": "vk-music-backup",
+  "version": "0.1.16",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "python3 scripts/build.py",
+    "pretest": "node -e \"require('node:fs').mkdirSync('.test-output',{recursive:true})\""
+  },
+  "devDependencies": {
+    "fake-indexeddb": "6.2.4"
+  }
+}

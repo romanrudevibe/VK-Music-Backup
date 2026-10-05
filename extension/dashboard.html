@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Мои аудиозаписи</title><link rel="stylesheet" href="dashboard.css"></head>
+<body>
+<main>
+  <header><div class="brand">↓</div><div><p class="eyebrow">VK MUSIC BACKUP · 0.1.16</p><h1>Мои аудиозаписи</h1><p class="subtitle">Твоя музыка. В твоей папке.</p></div><span id="connection" class="badge">VK не подключён</span></header>
+  <section class="notice">Первая версия: совместимость с твоим аккаунтом ещё нужно проверить. Начни со списка и трёх треков.</section>
+  <section class="card">
+    <div class="section-heading"><h2>Вся коллекция, одна очередь</h2><button id="connect" class="secondary">Подключить VK</button></div>
+    <p class="hint">Только треки, добавленные в твои аудиозаписи. Альбомы и чужие плейлисты не обходятся.</p>
+    <div class="stats"><div><strong id="total">0</strong><span>в списке</span></div><div><strong id="done">0</strong><span>сохранено</span></div><div><strong id="pending">0</strong><span>осталось</span></div><div><strong id="errors">0</strong><span>с ошибкой</span></div></div>
+    <progress id="overall" value="0" max="1" aria-label="Прогресс коллекции"></progress>
+    <p id="status" role="status" aria-live="polite">Открой «Мою музыку» в Chrome и подключи VK.</p>
+    <div id="current" class="current" hidden><strong id="currentTitle"></strong><span id="currentProgress"></span></div>
+    <div id="error" class="error" role="alert" hidden></div>
+    <div class="actions"><button id="scan" class="secondary">1. Собрать список</button><button id="test" class="secondary">2. Проверить 3 трека</button><button id="start">Скачать всё / продолжить</button><button id="pause" class="secondary" hidden>Пауза</button></div>
+    <p class="hint small">MP3 сохраняются как MP3, потоковое аудио — как M4A без перекодирования. Папка: <strong>Загрузки Chrome → VK Audio → ID аккаунта</strong>.</p>
+  </section>
+  <aside id="partnerOffer" class="partner-offer" aria-labelledby="partnerTitle" hidden>
+    <button id="hidePartner" class="partner-close" type="button" aria-label="Скрыть предложение курса">×</button>
+    <div class="partner-copy">
+      <p class="partner-label">РЕКЛАМА · STADIKA</p>
+      <h2 id="partnerTitle">Курсы по ИИ на русском</h2>
+      <p>По материалам OpenAI, Anthropic, Google, Mistral и Hugging Face.</p>
+      <ul class="partner-benefits">
+        <li><strong>65</strong><span>курсов в каталоге</span></li>
+        <li><strong>1600+</strong><span>уроков с переводом</span></li>
+        <li><strong>180+</strong><span>бесплатных уроков без VPN</span></li>
+      </ul>
+      <p>Учись в своём темпе. За каждый пройденный курс — именной сертификат.</p>
+      <p class="partner-disclosure">По партнёрской ссылке автор расширения получает бонус.</p>
+    </div>
+    <div class="partner-action">
+      <p class="partner-payment">Разовый платёж · без подписки</p>
+      <div class="partner-price"><del>4 900 ₽</del><strong>4 400 ₽</strong></div>
+      <a href="https://university.stadika.ru/ai-academy/?ref=ROMAN" target="_blank" rel="noopener noreferrer sponsored" class="partner-button">Посмотреть каталог →</a>
+      <p>Скидка 500 ₽ по коду <strong>ROMAN</strong>.<br>По ссылке код применится автоматически.</p>
+    </div>
+  </aside>
+  <section class="card">
+    <div class="section-heading"><h2>Аудиозаписи</h2><button id="folder" class="link">Открыть загрузки</button></div>
+    <div class="actions"><button id="exportTracks" class="secondary" disabled>Сохранить список треков для импорта в Spotify</button></div>
+    <p class="hint small">TXT · Исполнитель - Название · Все треки из собранного списка, независимо от поиска и состояния загрузки.</p>
+    <p id="exportStatus" class="hint small" role="status" aria-live="polite"></p>
+    <div class="tools"><input id="search" type="search" placeholder="Найти исполнителя или трек" aria-label="Поиск по списку"><label><input id="filter" type="checkbox"> Только ошибки</label></div>
+    <div id="empty" class="empty">Сначала собери список — количество треков появится здесь.</div>
+    <table id="table" hidden><thead><tr><th>Исполнитель / трек</th><th>Состояние</th></tr></thead><tbody id="tracks"></tbody></table>
+    <div class="pagination"><button id="prev" class="link">← Назад</button><span id="page"></span><button id="next" class="link">Далее →</button></div>
+    <div class="actions footer-actions"><button id="retry" class="secondary">Повторить ошибки</button><button id="rescan" class="link">Обновить список</button><button id="report" class="link">Скачать отчёт об ошибках</button><button id="feedbackButton" class="secondary">Сообщить о проблеме</button><button id="sample" class="link">Скачать тестовый фрагмент</button></div>
+    <p class="hint small">Тестовый фрагмент — часть одной проблемной аудиозаписи из локального кэша, до 2 МБ. Он нужен для диагностики формата; расширение никуда его не отправляет.</p>
+  </section>
+  <footer>Очередь и временные части хранятся на этом компьютере. После перезапуска Chrome активная очередь продолжится. Чтобы остановить её, нажми «Пауза».<br>Не удаляй расширение и его данные, пока нужна история загрузок.</footer>
+</main>
+<dialog id="feedbackDialog" aria-labelledby="feedbackTitle">
+  <h2 id="feedbackTitle">Сообщить о проблеме</h2>
+  <p id="feedbackHint">Опиши, что произошло. Сообщение откроется на GitHub — отправку подтверждаешь ты.</p>
+  <textarea id="feedbackDraft" rows="12" aria-label="Текст сообщения"></textarea>
+  <div class="actions"><button id="openIssue">Открыть GitHub Issues</button><button id="copyFeedback" class="secondary">Скопировать текст</button><button id="closeFeedback" class="link">Закрыть</button></div>
+  <p id="feedbackStatus" role="status"></p>
+</dialog>
+<script type="module" src="dashboard.js"></script>
+</body></html>

@@ -1,0 +1,20 @@
+name: Расширение перестало работать
+description: Сообщить об ошибке загрузки или списка
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Версия расширения
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Что произошло и как повторить
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Код ошибки и отчёт
+      description: Прикрепите диагностический JSON, проверив его содержимое. Не публикуйте аудио, cookies и данные входа.

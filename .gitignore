@@ -1,0 +1,10 @@
+node_modules/
+.test-output/
+website/data/
+.env
+.env.*
+!.env.example
+.DS_Store
+__pycache__/
+*.pyc
+releases/*.zip

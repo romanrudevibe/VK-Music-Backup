@@ -64,12 +64,20 @@ async function refresh() {
   try{render(await send('status',{page,query:$('search').value,filter:$('filter').checked?'error':'all'}));}
   catch(e){showError(e.message);}finally{requesting=false;}
 }
-for(const id of ['connect','scan','test','start','pause','retry','rescan','folder']) $(id).addEventListener('click',async()=>{
+for(const id of ['connect','scan','test','start','pause','retry','rescan']) $(id).addEventListener('click',async()=>{
   busy=true;activeCommand=id;feedback='';showError('');if(last)render(last);
   try{await send(id);if(id==='connect')feedback='VK подключён. Теперь нажми «1. Собрать список».';busy=false;activeCommand='';await refresh();}
   catch(e){busy=false;activeCommand='';await refresh();showError(e.message);stickyError=e.message;}
 });
 let stickyError='';
+$('folder').addEventListener('click',async()=>{
+  $('folder').disabled=true;
+  try {
+    const result=await send('folder',{account:last?.state.account});
+    $('folderStatus').textContent=result.found?'Папка открыта; последний скачанный трек выделен.':'Открыты загрузки Chrome. Папка аккаунта появится после сохранения первого трека; для её открытия нужна запись в истории загрузок Chrome.';
+  }catch(e){stickyError=e.message;showError(e.message);}
+  finally{$('folder').disabled=false;}
+});
 $('exportTracks').addEventListener('click',async()=>{
   exporting=true;$('exportTracks').disabled=true;$('exportStatus').textContent='Готовлю текстовый файл…';
   let url;

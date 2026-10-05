@@ -7,4 +7,11 @@ website/data/
 .DS_Store
 __pycache__/
 *.pyc
-releases/*.zip
+releases/
+
+# Private diagnostics and downloaded music
+*diagnostic*.json
+*.sqlite
+*.sqlite-*
+*.db
+VK Audio/

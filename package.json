@@ -1,6 +1,6 @@
 {
   "name": "vk-music-backup",
-  "version": "0.1.16",
+  "version": "0.1.19",
   "private": true,
   "type": "module",
   "scripts": {

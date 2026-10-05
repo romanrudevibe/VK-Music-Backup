@@ -213,7 +213,7 @@ async function command(message) {
   }
   if(message.command==='report') {
     const tracks=await allTracks();
-    return {version:'0.1.16',transport:state.transport||'not-selected',scanned:state.scanned,offset:state.offset,total:tracks.length,error:state.error,counts:tracks.reduce((r,t)=>(r[t.status]=(r[t.status]||0)+1,r),{}),errors:tracks.filter(t=>t.error).map(t=>({code:t.error.code,message:t.error.message,attempts:t.attempts,diagnostics:t.error.diagnostics}))};
+    return {version:'0.1.19',transport:state.transport||'not-selected',scanned:state.scanned,offset:state.offset,total:tracks.length,error:state.error,counts:tracks.reduce((r,t)=>(r[t.status]=(r[t.status]||0)+1,r),{}),errors:tracks.filter(t=>t.error).map(t=>({code:t.error.code,message:t.error.message,attempts:t.attempts,diagnostics:t.error.diagnostics}))};
   }
   if(message.command==='sample') {
     if(state.running||loop)throw new Error('Сначала поставь очередь на паузу и дождись её остановки.');

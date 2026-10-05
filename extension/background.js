@@ -1,4 +1,5 @@
 import {requestInVKTab} from './vk-tab.js';
+import {openDownloadedFolder} from './download-folder.js';
 let creating;
 async function ensureOffscreen() {
   const contexts = await chrome.runtime.getContexts({contextTypes:['OFFSCREEN_DOCUMENT'],documentUrls:[chrome.runtime.getURL('offscreen.html')]});
@@ -53,7 +54,7 @@ chrome.runtime.onMessage.addListener((message,sender,reply)=>{
     if (sender.url!==chrome.runtime.getURL('dashboard.html')) return;
     (async()=>{
       if (message.command==='connect') message.connection=await accountFromTab();
-      if (message.command==='folder') { chrome.downloads.showDefaultFolder(); return {ok:true}; }
+      if (message.command==='folder') return {ok:true,value:await openDownloadedFolder(message.account)};
       await ensureOffscreen();
       return chrome.runtime.sendMessage({...message,target:'engine'});
     })().then(reply,e=>reply({ok:false,error:e.message}));
